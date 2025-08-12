@@ -1,11 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const { movies } = require('../db/movies')
+const { homeController } = require('../Controller/movieController')
 
-router.get('/v1/', (req, res) => {
-    console.log('the home page');
-    res.send('Home page')
-})
+router.get('/v1/', homeController)
 
 // get all movies 
 router.get('/v1/movies/', (req, res) => {
