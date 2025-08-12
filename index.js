@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const PORT = 3002
+const { movies } = require('./db/movies')
 
 app.get('/api/v1/', (req, res) => {
     console.log('the home page');
@@ -8,17 +9,28 @@ app.get('/api/v1/', (req, res) => {
 
 })
 
+
 // get all movies
 app.get('/api/v1/movies/', (req, res) => {
-    console.log('all moviews');
-
-    res.send('all movies')
+    console.log('all movies returned');
+    // console.log(movies.id)
+    // res.send('all movies')
+    res.status(200).json({ movies })
 })
 
 //get a single movie
-app.get('/api/v1/movies/:movieId', (req, res) => {
-    const { movieId } = req.params;
-    res.send(movieId)
+app.get('/api/v1/movies/:singleId/', (req, res) => {
+    const { singleId } = req.params
+    // const id = movies.id
+    const movieId = parseInt(singleId)
+    const getSingleMovie = movies.find(movie => movie.id === movieId)
+    if (getSingleMovie) {
+        res.status.send(getSingleMovie.json)
+        return movieId
+    } else {
+        return console.log('invalid')
+
+    }
 })
 
 //create a movie
