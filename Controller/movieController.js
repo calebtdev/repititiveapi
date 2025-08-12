@@ -25,5 +25,32 @@ const getSingleMovie = (req, res) => {
     }
 }
 
+const createMovie = (req, res) => {
+    const newMovie = req.body
+    const { id } = req.body
+    const movieEcist = movies.find(movie => movie.id === id)
 
-module.exports = { homeController, getAllMovies, getSingleMovie }
+    if (!newMovie || !newMovie.id || !newMovie.title) {
+        res.status(400).json({
+            msg: "kindly provide new movie data"
+        })
+    }
+    else if (movieEcist) {
+        res.status(400).json({
+            msg: "movie already exist"
+        })
+    }
+    else {
+        movies.push(newMovie)
+
+        res.status(201).json({
+            msg: "new movie inserted successfully",
+            movie: newMovie,
+            movies: movies.length
+        })
+    }
+
+}
+
+
+module.exports = { homeController, getAllMovies, getSingleMovie, createMovie }
