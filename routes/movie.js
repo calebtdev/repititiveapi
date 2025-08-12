@@ -1,30 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const { movies } = require('../db/movies')
-const { homeController } = require('../Controller/movieController')
+const { homeController, getAllMovies, getSingleMovie } = require('../Controller/movieController')
 
 router.get('/v1/', homeController)
 
 // get all movies 
-router.get('/v1/movies/', (req, res) => {
-    console.log('all movies returned');
-    res.status(200).json({ movies })
-})
+router.get('/v1/movies/', getAllMovies)
 
 //get a single movie
-router.get('/v1/movies/:singleId/', (req, res) => {
-    const { singleId } = req.params
-    const movieId = parseInt(singleId)
-
-    const getSingleMovie = movies.find(movie => movie.id === movieId)
-
-    if (getSingleMovie) {
-        res.status(200).json(getSingleMovie)
-    } else {
-        res.status(404).json({ msg: 'invalid request' })
-
-    }
-})
+router.get('/v1/movies/:singleId/', getSingleMovie)
 
 //create a movie
 router.post('/v1/movie', (req, res) => {
