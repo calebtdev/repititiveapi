@@ -52,5 +52,30 @@ const createMovie = (req, res) => {
 
 }
 
+const deleteAMovie = (req, res) => {
+    const { movieId } = req.params
+    const singleMovie = parseInt(movieId)
 
-module.exports = { homeController, getAllMovies, getSingleMovie, createMovie }
+    const remainingMovie = movies.filter(movie => movie.id !== singleMovie)
+
+    res.status(201).json({
+        msg: "deleted successfully",
+        movies: remainingMovie
+    })
+}
+
+const patchMovie = (req, res) => {
+    const { movieId } = req.params
+    const updateData = req.body
+    const singleId = parseInt(movieId)
+
+    const movieIndex = movies.findIndex(movie => movie.id === singleId)
+    movies[movieIndex] = { ...movies[movieIndex], ...updateData }
+
+    res.status(201).json({
+        msg: "movie updated successfully",
+        movie: movies[movieIndex]
+    })
+}
+
+module.exports = { homeController, getAllMovies, getSingleMovie, createMovie, deleteAMovie, patchMovie }
